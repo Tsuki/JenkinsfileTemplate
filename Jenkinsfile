@@ -25,13 +25,9 @@ podTemplate(label: 'node-k8s', containers: [
         stage('build container'){
             sh 'hostname -f'
             sh 'type docker'
-            withDockerRegistry([credentialsId: 'nfdregistryacse51', url: 'https://nfdregistryacse51.azurecr.io']) {
-                stage("build"){
-                    app = docker.build "DTA-backend"
-                }
+            withDockerRegistry([credentialsId: 'dockerhub', url: 'https://registry.hub.docker.com']) {
                 stage ("publish"){
                     app.push 'master'
-                    app.push "${commit_id}"
                 }
             }
         }
