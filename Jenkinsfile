@@ -25,7 +25,9 @@ podTemplate(label: 'node-k8s', containers: [
             }
             stage('push docker'){
                 docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
-                    docker.image("natsukikana/jenkins_template:latest").push()
+                    print ${BUILD_NUMBER}
+                    docker.image("natsukikana/jenkins_template").push("latest")
+                    docker.image("natsukikana/jenkins_template").push("${BUILD_NUMBER}")
                     // sh 'docker login'
                     // sh 'docker push natsukikana/jenkins_template:latest'
                 }
