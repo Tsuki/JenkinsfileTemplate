@@ -20,7 +20,7 @@ podTemplate(label: 'node-k8s', containers: [
                 sh 'npm install'
             }
             stage("build docker"){
-                    sh 'docker build natsukikana/jenkins_template .'
+                    sh 'docker build -t natsukikana/jenkins_template .'
             }
             stage('push docker'){
                 docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
