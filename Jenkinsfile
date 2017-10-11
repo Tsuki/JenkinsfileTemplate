@@ -20,7 +20,7 @@ podTemplate(label: 'node-k8s', containers: [
                 sh 'npm install'
             }
  			stage('push docker'){
-				docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+				docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
                 	app.push("latest")
         		}
 			}
