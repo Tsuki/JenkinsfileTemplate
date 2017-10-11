@@ -27,11 +27,6 @@ podTemplate(label: 'node-k8s', containers: [
                     app.push("latest")
                 }
             }
-            withDockerRegistry([credentialsId: 'dockerhub', url: 'https://registry.hub.docker.com']) {
-                stage ("publish"){
-                    app.push("latest")
-                }
-            }
         }
     }
 }
