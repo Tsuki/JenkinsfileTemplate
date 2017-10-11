@@ -19,6 +19,11 @@ podTemplate(label: 'node-k8s', containers: [
             stage('build') {
                 sh 'npm install'
             }
+ 			stage('push docker'){
+				docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+                	app.push("latest")
+        		}
+			}
             withDockerRegistry([credentialsId: 'dockerhub', url: 'https://registry.hub.docker.com']) {
                 stage("build docker"){
                     app = docker.build "natsukikana/jenkins_template"
