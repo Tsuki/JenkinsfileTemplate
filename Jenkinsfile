@@ -15,12 +15,9 @@ podTemplate(label: 'node-k8s', containers: [
 
             stage('check out') {
                 checkout scm
-                sh 'npm install'
             }
-            stage('Build - npm install') {
-                dir ('app') {
-                    sh 'npm install'
-                }
+            stage('build') {
+                sh 'npm install'
             }
             withDockerRegistry([credentialsId: 'dockerhub', url: https://registry.hub.docker.com']) {
                 stage("build"){
