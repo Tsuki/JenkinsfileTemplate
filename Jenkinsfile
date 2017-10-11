@@ -24,7 +24,7 @@ podTemplate(label: 'node-k8s', containers: [
             }
             stage('push docker'){
                 docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
-                    app.push("latest")
+                    sh 'docker push natsukikana/jenkins_template'
                 }
             }
         }
