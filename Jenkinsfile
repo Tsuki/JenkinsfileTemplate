@@ -1,10 +1,6 @@
 podTemplate(label: 'node-k8s', containers: [
     containerTemplate(name: 'node', image: 'node:8-alpine', ttyEnabled: true)    
-  ],volumes: [
-    hostPathVolume(hostPath: '/var/run/docker.sock', mountPath: '/var/run/docker.sock'),
-    hostPathVolume(hostPath: '/usr/bin/docker', mountPath: '/usr/bin/docker')
   ]) {
-    def app
     node('node-k8s') {
         app = container('node') {
             stage('Run Command') {
@@ -15,16 +11,19 @@ podTemplate(label: 'node-k8s', containers: [
 
             stage('check out') {
                 checkout scm
-            }
-            stage('build') {
                 sh 'npm install'
             }
+            stage('Build - npm install') {
+                dir ('app') {
+                    sh 'npm install'
+                }
+            }
             stage("build docker"){
-					// https://issues.jenkins-ci.org/browse/JENKINS-46447
+                    // https://issues.jenkins-ci.org/browse/JENKINS-46447
                     sh 'docker build -t natsukikana/jenkins_template .'
             }
             stage('push docker'){
-                docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+                docker.withRegistry('https://nfdregistryacse51.azurecr.io', 'nfdregistryacse51') {
                     print "${BUILD_NUMBER}"
                     docker.image("natsukikana/jenkins_template").push("latest")
                     docker.image("natsukikana/jenkins_template").push("${BUILD_NUMBER}")
