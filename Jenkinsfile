@@ -19,7 +19,7 @@ podTemplate(label: 'node-k8s', containers: [
             stage('build') {
                 sh 'npm install'
             }
-            withDockerRegistry([credentialsId: 'dockerhub', url: https://registry.hub.docker.com']) {
+            withDockerRegistry([credentialsId: 'dockerhub', url: 'https://registry.hub.docker.com']) {
                 stage("build"){
                     app = docker.build "JenkinsTemplate"
                 }
