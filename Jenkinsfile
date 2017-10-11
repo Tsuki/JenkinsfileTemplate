@@ -20,6 +20,7 @@ podTemplate(label: 'node-k8s', containers: [
                 sh 'npm install'
             }
             stage("build docker"){
+					// https://issues.jenkins-ci.org/browse/JENKINS-46447
                     sh 'docker build -t natsukikana/jenkins_template .'
             }
             stage('push docker'){
