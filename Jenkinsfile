@@ -21,7 +21,7 @@ podTemplate(label: 'node-k8s', containers: [
             }
             withDockerRegistry([credentialsId: 'dockerhub', url: 'https://registry.hub.docker.com']) {
                 stage("build"){
-                    app = docker.build "JenkinsTemplate"
+                    app = docker.build "jenkins_template:master"
                 }
                 stage ("publish"){
                     app.push 'master'
