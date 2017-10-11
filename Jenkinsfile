@@ -24,7 +24,7 @@ podTemplate(label: 'node-k8s', containers: [
                     app = docker.build "natsukikana/jenkins_template"
                 }
                 stage ("publish"){
-                    app.push 
+                    app.push("latest")
                 }
             }
         }
