@@ -8,6 +8,7 @@ podTemplate(label: 'node-k8s', containers: [
                 print 'in side node'
                 sh 'node --version'
                 sh 'hostname -f'
+				print app
             }
 
             stage('check out') {
