@@ -1,5 +1,8 @@
 podTemplate(label: 'node-k8s', containers: [
     containerTemplate(name: 'node', image: 'node:8-alpine', ttyEnabled: true)    
+  ],volumes: [
+    hostPathVolume(hostPath: '/var/run/docker.sock', mountPath: '/var/run/docker.sock'),
+    hostPathVolume(hostPath: '/usr/bin/docker', mountPath: '/usr/bin/docker')
   ]) {
     def app
     node('node-k8s') {
@@ -8,7 +11,6 @@ podTemplate(label: 'node-k8s', containers: [
                 print 'in side node'
                 sh 'node --version'
                 sh 'hostname -f'
-				print app
             }
 
             stage('check out') {
@@ -20,13 +22,10 @@ podTemplate(label: 'node-k8s', containers: [
                     sh 'npm install'
                 }
             }
-        }
-    }
-    node{  
-        stage('build container'){
-            sh 'hostname -f'
-            sh 'type docker'
-            withDockerRegistry([credentialsId: 'dockerhub', url: 'https://registry.hub.docker.com']) {
+            withDockerRegistry([credentialsId: 'dockerhub', url: https://registry.hub.docker.com']) {
+                stage("build"){
+                    app = docker.build "JenkinsTemplate"
+                }
                 stage ("publish"){
                     app.push 'master'
                 }
